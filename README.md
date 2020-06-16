@@ -1,4 +1,4 @@
-##Team-Granite-Backend
+# Team-Granite-Backend
 ### A Web Crawler Parser
 =========================
 
@@ -19,7 +19,7 @@ pipenv install -r requirements.txt
 This will download all the dependencies for this application.
 
 
-##Using the service
+## Using the service
 - We have Scraper as part of the dependencies.
 - We have BeautifulSoup as part of the dependencies.
 - We have Pandas as part of the dependencies.
@@ -33,7 +33,7 @@ Please make sure you read the file into a variable, acceptable variable names in
 To read the data frame into another another file, use this function d_frame.to_json(name of file.csv)
 For more information on how to manipulate data using pandas visit https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html
 
-##Contribute guide
+## Contribute guide
 If you're in team-granite-backend:
 
 - Add the main repository as an upstream git remote add upstream https://github.com/hngi/webpage-crawler.git
