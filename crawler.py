@@ -1,3 +1,4 @@
+import wget
 import time
 import json
 import requests
@@ -76,9 +77,47 @@ def get_file_link(url):
                         
     return day_report_link
 
-def save_dict(dict):
+def save_dict(dict, name):
     
-    with open('data.json', 'w') as fp:
+    with open(str(name), 'w') as fp:
     json.dump(dict, fp, sort_keys=True, indent=4)
     return("File Saved")
+
+def request_year(year):
+
+    year_link = get_year_link()
+    get_file_link = (year_link[year])
+
+    return (get_file_link)
+
+def merge_year_data():
+    all_data = {}
+    for i in [2018,2019,2020]:
+        year_data = request_year(i)
+        all_data.update(year_data)
+    
+    return all_data
+
+def get_by_date(date):
+    all_data = merge_year_data()
+    file_link = all_data[date]
+
+    return file_link
+
+# function to return key for any value 
+def get_key(val): 
+    for key, value in my_dict.items(): 
+         if val == value: 
+             return key 
+  
+    return "key doesn't exist"
+
+def download_file(url, filename):
+    wget.download(url, 'filename')
+    return("File downloaded")
+
+def downlaod_all_file():
+    for i in merge_year_data().values():
+        download_file(i, get_key(i))
+    return ("File Downloaded")
 
