@@ -3,6 +3,7 @@ import time
 import json
 import requests
 import urllib.request
+import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from bs4 import BeautifulSoup
@@ -80,19 +81,21 @@ def get_file_link(url):
 def save_dict(dict, name):
     
     with open(str(name), 'w') as fp:
-    json.dump(dict, fp, sort_keys=True, indent=4)
+        json.dump(dict, fp, sort_keys=True, indent=4)
     return("File Saved")
 
 def request_year(year):
 
     year_link = get_year_link()
-    get_file_link = (year_link[year])
+    print(year_link)
+    year_url = year_link[str(year)]
+    year_file_link = get_file_link(year_url)
 
-    return (get_file_link)
+    return (year_file_link)
 
 def merge_year_data():
     all_data = {}
-    for i in [2018,2019,2020]:
+    for i in ["2018","2019","2020"]:
         year_data = request_year(i)
         all_data.update(year_data)
     
