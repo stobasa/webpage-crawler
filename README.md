@@ -44,4 +44,3 @@ If you're in team-granite-backend:
 - Send a PR after you have test your feature locally with Postman
 - Tell us in your PR in bullet points what you have added
 - Add yourself as a user to the database mongodb(this will eventually count for contribution points)
-
