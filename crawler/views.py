@@ -6,10 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from bs4 import BeautifulSoup
 import requests
 
-homepage = 'https://opentreasury.gov.ng/'
-querystring_2018 = 'index.php/component/content/article/11-dpr/29-daily-payment-report-2?Itemid=101'
-querystring_2019 = 'index.php/component/content/article/11-dpr/2759-daily-payment-report-fgn-2019?Itemid=101'
-querystring_2020 = 'index.php/component/content/article/11-dpr/3015-2020-daily-payment?Itemid=101'
+homepage = 'https://opentreasury.gov.ng'
+querystring_2018 = '/index.php/component/content/article/11-dpr/29-daily-payment-report-2?Itemid=101'
+querystring_2019 = '/index.php/component/content/article/11-dpr/2759-daily-payment-report-fgn-2019?Itemid=101'
+querystring_2020 = '/index.php/component/content/article/11-dpr/3015-2020-daily-payment?Itemid=101'
 
 @api_view(['GET'])
 def year_2018(request):
