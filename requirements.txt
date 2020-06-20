@@ -12,3 +12,6 @@ requests==2.24.0
 soupsieve==2.0.1
 sqlparse==0.3.1
 urllib3==1.25.9
+gunicorn
+django_heroku
+drf-yasg==1.17.1

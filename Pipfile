@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-
 appdirs = "==1.4.3"
 asgiref = "==3.2.8"
 attrs = "==19.3.0"
@@ -88,7 +87,7 @@ service_identity = "==18.1.0"
 Twisted = "==20.3.0"
 Werkzeug = "==1.0.1"
 "zope.interface" = "==5.1.0"
+django-heroku = "*"
 
 [requires]
 python_version = "3.6"
-
