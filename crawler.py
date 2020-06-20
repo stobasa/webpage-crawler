@@ -137,7 +137,7 @@ def download_file(url, name):
         f.close
     
 
-def downlaod_all_file():
+def download_all_file():
     #merge_year_data()
     data = open_json("all_data.json")
     data = pd.DataFrame({"Date": list(data.keys()), "link": list(data.values())})
