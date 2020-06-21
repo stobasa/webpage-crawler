@@ -1,6 +1,6 @@
 import os
 from flask import Flask, request, redirect, url_for, jsonify
-from crawler import merge_year_data
+from api.crawler import merge_year_data
 
 app = Flask(__name__)
 
