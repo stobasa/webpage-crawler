@@ -148,3 +148,6 @@ def download_all_file():
 
 
 
+if __name__ == "__main__":
+    merge_year_data()
+    #download_all_file()
