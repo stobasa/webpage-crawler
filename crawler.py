@@ -10,13 +10,6 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-import geckodriver_autoinstaller
-geckodriver_autoinstaller.install()
-
-options = Options()
-options.headless = True
 
 homepage = 'https://opentreasury.gov.ng'
 
@@ -95,7 +88,7 @@ def open_json(filename):
 
 def request_year(year):
 
-    year_link = get_year_link()
+    year_link = open_json("yearlink.json")
     year_url = year_link[str(year)]
     year_file_link = get_file_link(year_url)
 
