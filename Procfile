@@ -1,1 +1,1 @@
-web: gunicorn webpage-crawler.wsgi
+web: gunicorn root.wsgi
