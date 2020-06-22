@@ -20,8 +20,7 @@ def Get_all():
 def Get_date(date):
     date = date.replace("-", "/")
     #all_links = merge_year_data()
-    dates = json.load(all_links)
-    date_link = dates[date]
+    date_link = all_links[date]
     return jsonify({date : dates[date_link]})
 
 
