@@ -13,40 +13,6 @@ from bs4 import BeautifulSoup
 
 homepage = 'https://opentreasury.gov.ng'
 
-def get_year_link():
-    
-    
-    year_dict = {}
-    
-    
-    driver = webdriver.Firefox(options=options)
-
-    # get web page
-    driver.get(homepage)
-
-
-    daily_payment_report = driver.find_element_by_css_selector('.sppb-panel:nth-child(1) > .sppb-panel-heading')
-
-    daily_payment_report.click()
-
-    fg_report = driver.find_element_by_id('sppb-modal-1537891110859-selector')
-
-    fg_report.click()
-    soup_level1 = BeautifulSoup(driver.page_source, 'lxml')
-    driver.quit()
-
-
-    tbody = soup_level1.find('tbody')
-    table_content= tbody.find_all('td')
-    
-    for i in table_content:
-        _year = i.find('a').text
-        _link = homepage + i.find('a')['href']
-
-        year_dict.update({_year: _link})
-        
-    return year_dict
-
 def get_file_link(url):
     
     day_report_link = {}
