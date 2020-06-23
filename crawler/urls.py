@@ -12,11 +12,11 @@ urlpatterns = [
 	path('2020/month/<int:id>', year_month_2020),
 
 	# Day
-	path('2018/month/<int:id>/daily/<int:id>', year_month_daily2018),
-	path('2019/month/<int:id>/daily/<int:id>', year_month_daily2019),
-	path('2020/month/<int:id>/daily/<int:id>', year_month_daily2020),
+	path('2018/month/<int:id>/day/<int:id>', year_month_daily2018),
+	path('2019/month/<int:id>/day/<int:id>', year_month_daily2019),
+	path('2020/month/<int:id>/day/<int:id>', year_month_daily2020),
 
-	# cron job
+	# cron jobs
 	path('cron/', cron),
 
 ]
