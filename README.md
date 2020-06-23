@@ -2,6 +2,9 @@
 ### A Web Crawler Parser
 =========================
 
+
+##Installation 
+
 - Run the App:
 - Fork this repository
 - Clone to your local machine
@@ -18,20 +21,89 @@ pipenv install -r requirements.txt
 
 This will download all the dependencies for this application.
 
-
-## Using the service
-- We have Scraper as part of the dependencies.
-- We have BeautifulSoup as part of the dependencies.
-- We have Pandas as part of the dependencies.
-- Make sure you import pandas. You can import pandas as pd.
-- To read the excel run, use this function
-``` shell
- pd.read_excel('name of file.xlsx')
+#Error Codes
+```
+404, 400, 401
 ```
 
-Please make sure you read the file into a variable, acceptable variable names include d_frame, df, data_frame, etc.
-To read the data frame into another another file, use this function d_frame.to_json(name of file.csv)
-For more information on how to manipulate data using pandas visit https://pandas.pydata.org/pandas-docs/stable/user_guide/io.html
+##Base Url
+https://fgn-web-crawler.herokuapp.com/
+
+
+##GET: 2018/
+
+- Example
+- This gets the download links for each year 
+```
+[
+    {
+        "31/12/2018": "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/DECEMBER/31-12-2018.xlsx"
+    }
+]
+```
+
+##GET: 2018/month/1
+
+- Example
+- This gets the download links for each Month 
+```
+
+[
+    {
+        "January": [
+            {
+
+            01/1/2018,
+            "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/01-01-2018.xlsx"
+            
+            },
+            {
+             01/1/2018,
+            "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/02-01-2018.xlsx"
+            }
+
+        ]
+        
+    }
+]
+```
+
+
+##GET: 2018/month/1/day/1
+
+- Example
+- This gets the download links for each day 
+```
+[
+    {
+            "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/01-01-2018.xlsx",
+            
+            "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/02-01-2018.xlsx",
+
+            "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/03-01-2018.xlsx"
+        
+    }
+]
+```
+
+
+
+##GET: cron
+
+- Example
+- This get requests initiates 9AM every day
+```
+{
+   "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/01-01-2018.xlsx",
+}
+```
+
+## Using the service
+- We have BeautifulSoup as part of the dependencies.
+- We have Requests as part of the dependencies.
+- We have Pandas as part of the dependencies.
+- Make sure you import pandas. You can import pandas as pd.
+
 
 ## Contribute guide
 If you're in team-granite-backend:
