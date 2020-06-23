@@ -16,7 +16,7 @@ urlpatterns = [
 	path('2019/month/<int:id>/daily/<int:id>', year_month_daily2019),
 	path('2020/month/<int:id>/daily/<int:id>', year_month_daily2020),
 
-	# cron
+	# cron job
 	path('cron/', cron),
 
 ]
