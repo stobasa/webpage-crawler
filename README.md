@@ -3,7 +3,7 @@
 =========================
 
 
-##Installation 
+## Installation 
 
 - Run the App:
 - Fork this repository
@@ -21,16 +21,24 @@ pipenv install -r requirements.txt
 
 This will download all the dependencies for this application.
 
-#Error Codes
+
+## Using the service
+- We have BeautifulSoup as part of the dependencies.
+- We have Requests as part of the dependencies.
+- We have Pandas as part of the dependencies.
+- Make sure you import pandas. You can import pandas as pd.
+
+
+# Error Codes
 ```
 404, 400, 401
 ```
 
-##Base Url
+## Base Url
 https://fgn-web-crawler.herokuapp.com/
 
 
-##GET: 2018/
+## GET: 2018/
 
 - Example
 - This gets the download links for each year 
@@ -42,7 +50,7 @@ https://fgn-web-crawler.herokuapp.com/
 ]
 ```
 
-##GET: 2018/month/1
+## GET: 2018/month/1
 
 - Example
 - This gets the download links for each Month 
@@ -69,7 +77,7 @@ https://fgn-web-crawler.herokuapp.com/
 ```
 
 
-##GET: 2018/month/1/day/1
+## GET: 2018/month/1/day/1
 
 - Example
 - This gets the download links for each day 
@@ -88,7 +96,7 @@ https://fgn-web-crawler.herokuapp.com/
 
 
 
-##GET: cron
+## GET: cron
 
 - Example
 - This get requests initiates 9AM every day
@@ -97,12 +105,6 @@ https://fgn-web-crawler.herokuapp.com/
    "https://opentreasury.gov.ng/images/dailypaymentFGN/2018/JANUARY/01-01-2018.xlsx",
 }
 ```
-
-## Using the service
-- We have BeautifulSoup as part of the dependencies.
-- We have Requests as part of the dependencies.
-- We have Pandas as part of the dependencies.
-- Make sure you import pandas. You can import pandas as pd.
 
 
 ## Contribute guide
