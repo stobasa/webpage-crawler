@@ -24,9 +24,6 @@ schema_view = get_schema_view(
 	  title="Webpage Crawler API",
 	  default_version='v1',
 	  description="Microservice for Webpage Crawler",
-	  terms_of_service="https://www.google.com/policies/terms/",
-	  contact=openapi.Contact(email="contact@snippets.local"),
-	  license=openapi.License(name="BSD License"),
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
@@ -34,7 +31,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', include('crawler.urls')),
+	path('v1/', include('crawler.urls')),
 	re_path(r'^(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-	re_path(r'^$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+	re_path(r'^$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+	re_path(r'redoc/^$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
