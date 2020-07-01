@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, re_path
 from .views import *
 
 urlpatterns = [
@@ -11,4 +11,5 @@ urlpatterns = [
 	path('2018download/', year_2018_download),
 	path('2019download/', year_2019_download),
 	path('2020download/', year_2020_download),
+	re_path(r'^dailyreport/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report),
 ]
