@@ -7,6 +7,8 @@ from drf_yasg.utils import swagger_auto_schema
 from bs4 import BeautifulSoup
 import requests
 import datetime
+import schedule
+
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
@@ -227,7 +229,7 @@ def cronjob(request):
 	while True:
 		schedule.run_pending()
 		time.sleep(1)
-		link = requests.get(CRON_URL+'/v1/dailyreportjson/{}/{}/{}/'.format(year,month, day)).json()
+		link = requests.get(CRON_DEV_URL+'/v1/dailyreportjson/{}/{}/{}/'.format(year,month, day)).json()
 		return JsonResponse([link], safe = False)
 
 
