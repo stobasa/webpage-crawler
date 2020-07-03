@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crawler.apps.CrawlerConfig',
     'rest_framework',
     'drf_yasg',
+    'schedule',
 ]
 
 MIDDLEWARE = [
