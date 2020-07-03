@@ -96,6 +96,7 @@ def year_2018_momthly(request):
 	url = f'{homepage + querystring_2018_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -108,10 +109,10 @@ def year_2018_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 
 @api_view(['GET'])
@@ -119,6 +120,7 @@ def year_2019_momthly(request):
 	url = f'{homepage + querystring_2019_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -131,10 +133,10 @@ def year_2019_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 
 @api_view(['GET'])
@@ -142,6 +144,7 @@ def year_2020_momthly(request):
 	url = f'{homepage + querystring_2020_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -154,10 +157,10 @@ def year_2020_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 @api_view(['GET'])
 def daily_report(request, year, month, date):
