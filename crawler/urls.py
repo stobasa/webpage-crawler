@@ -9,5 +9,6 @@ urlpatterns = [
 	path('2019/monthly/', year_2019_momthly),
 	path('2020/monthly/', year_2020_momthly),
 	re_path(r'^dailyreport/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report),
+	re_path(r'^dailyreportjson/(?P<year>[0-9]{4})/(?P<month>[0-9]{1,2})/(?P<date>[0-9]{1,2})/$', daily_report_json),
 	path('cron/', cronjob),
 ]
