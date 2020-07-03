@@ -7,7 +7,6 @@ from drf_yasg.utils import swagger_auto_schema
 from bs4 import BeautifulSoup
 import requests
 import datetime
-import schedule
 
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)

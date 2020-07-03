@@ -44,6 +44,6 @@ et_xmlfile==1.0.1
 Flask==1.1.2
 Scrapy==2.1.0
 whitenoise
-celery==4.4.6
 schedule==0.6.0
+celery==4.4.6
 
