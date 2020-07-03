@@ -16,7 +16,7 @@ querystring_2019 = '/index.php/component/content/article/11-dpr/2759-daily-payme
 querystring_2020 = '/index.php/component/content/article/11-dpr/3015-2020-daily-payment?Itemid=101'
 querystring_2018_monthly = "/index.php/component/content/article/15-sample/221-monthly-budget-performance-fgn-total?Itemid=101"
 querystring_2019_monthly ="/index.php/component/content/article/54-2019/fgn-monthly/1212-fgn-monthly?Itemid=101"
-querystring_2019_monthly = "/index.php/component/content/article/92-2020/3847-fgn-monthly?Itemid=101"
+querystring_2020_monthly = "/index.php/component/content/article/92-2020/3847-fgn-monthly?Itemid=101"
 
 CRON_URL = "http://localhost:8000"
 CRON_DEV_URL = 'https://fgn-web-crawler.herokuapp.com'
@@ -96,6 +96,7 @@ def year_2018_momthly(request):
 	url = f'{homepage + querystring_2018_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -108,10 +109,10 @@ def year_2018_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 
 @api_view(['GET'])
@@ -119,6 +120,7 @@ def year_2019_momthly(request):
 	url = f'{homepage + querystring_2019_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -131,10 +133,10 @@ def year_2019_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 
 @api_view(['GET'])
@@ -142,6 +144,7 @@ def year_2020_momthly(request):
 	url = f'{homepage + querystring_2020_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
+		monthlyreport = {}
 
 		soup = BeautifulSoup(r, 'lxml')
 
@@ -154,10 +157,10 @@ def year_2020_momthly(request):
 					for i in table_data:
 						if i != None:
 							try:
-								result = {table_data[0].text: homepage + table_data[2].find('a')['href']}
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
 							except:
 								result = {table_data[0].text: ""}
-		return Response([result])
+		return Response([monthlyreport])
 
 @api_view(['GET'])
 def daily_report(request, year, month, date):
@@ -264,5 +267,100 @@ def daily_report_json(request, year, month, date):
 										result = {table_data[0].text: ""}
 			return JsonResponse([result], safe=False)
 		
+	except:
+		return JsonResponse("Invalid date", safe=False)
+
+
+
+@api_view(['GET'])
+def monthly_report(year, based, month):
+	"""
+	Monthly report view
+	:param request: Year, Based, Month
+	Year: Search Year in YYYY format
+	Based: Admin for ADMINISTRATIVE SEGMENT, Eco for ECONOMIC CLASSIFICATION and Func for FUNCTIONS OF GOVERNMENT
+	Month: Search Month in Format January...
+	:return: the download link for the particular month based on it ADMINISTRATIVE SEGMENT,  ECONOMIC CLASSIFICATION or FUNCTIONS OF GOVERNMENT	
+	"""
+
+	try:
+		if int(year) == 2018:
+			url = f'{homepage + querystring_2018_monthly}'
+		if int(year) == 2019:
+			url = f'{homepage + querystring_2019_monthly}'
+		if int(year) == 2020:
+			url = f'{homepage + querystring_2020_monthly}'
+		
+
+		r = requests.get(url, verify=False).text
+		month_dict = {"Admin":{}, "Eco":{}, "Func":{}}
+
+		soup = BeautifulSoup(r, 'lxml')
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[0].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									month_dict["Admin"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+								except:
+									result = {table_data[0].text: ""}
+
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[1].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									month_dict["Eco"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+								except:
+									result = {table_data[0].text: ""}
+
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+
+		table_rows = table[2].find_all('tr')
+		for td in table_rows:
+			table_data = td.find_all('td')
+			for i in table_data:
+							if i != None:
+								try:
+									month_dict["Func"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+								except:
+									result = {table_data[0].text: ""}
+									
+									
+		if based == "Admin":
+			try:
+				result = (month_dict["Admin"][month])
+				return JsonResponse([result])
+			except:
+				return JsonResponse(["Invalid"])
+				
+		elif based == "Eco":
+			try:
+				result = (month_dict["Eco"][month])
+				return JsonResponse([result])
+			except:
+				return JsonResponse(["Invalid"])
+		elif based == "Func":
+			try:
+				result = (month_dict["Func"][month])
+				return JsonResponse([result])
+			except:
+				return JsonResponse("Invalid date", safe=False)
+				
+		else:
+			return JsonResponse("Invalid date", safe=False)
+
 	except:
 		return JsonResponse("Invalid date", safe=False)
