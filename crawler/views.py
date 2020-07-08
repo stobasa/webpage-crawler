@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse, JsonResponse, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from drf_yasg.utils import swagger_auto_schema
+from django.core.files import File
 from bs4 import BeautifulSoup
 import requests
 import datetime
@@ -26,6 +27,264 @@ CRON_TIME = "09:00"
 treasury2018 = "/index.php/component/content/article/10-daily-treasury-statement-fgn/26-daily-treasury-statement-fgn-9?Itemid=101"
 treasury2019 = "/index.php/component/content/article/10-daily-treasury-statement-fgn/26-daily-treasury-statement-fgn-9?Itemid=101"
 treasury2020 = "/index.php/component/content/article/10-daily-treasury-statement-fgn/26-daily-treasury-statement-fgn-9?Itemid=101"
+
+
+# Download files for their performance reports 
+@api_view(['GET'])
+def year_download_2018(request):
+	"""
+	Download the excel files (.xlsx) of 2018
+	:param request:
+	:return: filename, download url
+	"""
+	# return JsonResponse([1],safe = False)
+	response = HttpResponse(content_type = 'application/ms-excel')
+	result = []
+	url = f'{homepage + querystring_2018}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		soup = BeautifulSoup(r, 'lxml')
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								file_name = table_data[0].text
+								file_link = homepage + table_data[1].find('a')['href']
+								result.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/expense/2018/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								result.append({table_data[0].text: ""})
+		print("The end")
+		return JsonResponse([file_name], safe =False)
+
+@api_view(['GET'])
+def year_download_2019(request):
+	"""
+	Download the excel files (.xlsx) of 2018
+	:param request:
+	:return: filename, download url
+	"""
+	# return JsonResponse([1],safe = False)
+	response = HttpResponse(content_type = 'application/ms-excel')
+	result = []
+	url = f'{homepage + querystring_2019}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		soup = BeautifulSoup(r, 'lxml')
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								file_name = table_data[0].text
+								file_link = homepage + table_data[1].find('a')['href']
+								result.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/expense/2019/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								result.append({table_data[0].text: ""})
+		print("The end")
+		return JsonResponse([file_name], safe =False)
+
+
+@api_view(['GET'])
+def year_download_2020(request):
+	"""
+	Download the excel files (.xlsx) of 2020
+	:param request:
+	:return: filename, download url
+	"""
+	# return JsonResponse([1],safe = False)
+	response = HttpResponse(content_type = 'application/ms-excel')
+	result = []
+	url = f'{homepage + querystring_2020}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		soup = BeautifulSoup(r, 'lxml')
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								file_name = table_data[0].text
+								file_link = homepage + table_data[1].find('a')['href']
+								result.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/expense/2020/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								result.append({table_data[0].text: ""})
+		print("The end")
+		return JsonResponse([file_name], safe =False)
+
+
+
+# DOWNLOAD BUDGET
+
+def year_2018_momthly_download(request):
+	url = f'{homepage + querystring_2018_monthly}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		monthlyreport = {}
+
+		soup = BeautifulSoup(r, 'lxml')
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								monthlyreport.update({table_data[0].text: homepage + table_data[2].find('a')['href']})
+								file_name = table_data[0].text
+								file_link = homepage + table_data[2].find('a')['href']
+								monthlyreport.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/budget/2018/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								monthlyreport.append({table_data[0].text: ""})
+						
+		return JsonResponse([monthlyreport], safe =False)
+
+
+
+def year_2019_momthly_download(request):
+	url = f'{homepage + querystring_2019_monthly}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		monthlyreport = {}
+
+		soup = BeautifulSoup(r, 'lxml')
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								file_name = table_data[0].text
+								file_link = homepage + table_data[2].find('a')['href']
+								monthlyreport.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/budget/2019/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								monthlyreport.append({table_data[0].text: ""})
+						
+		return JsonResponse([monthlyreport], safe =False)
+
+
+def year_2020_momthly_download(request):
+	url = f'{homepage + querystring_2020_monthly}'
+	if request.method == 'GET':
+		r = requests.get(url, verify=False).text
+		monthlyreport = {}
+
+		soup = BeautifulSoup(r, 'lxml')
+
+		for section in soup.find('section', attrs={'class': 'sppb-section'}):
+			table = section.find_all('table')
+			for tr in table:
+				table_rows = tr.find_all('tr')
+				for td in table_rows:
+					table_data = td.find_all('td')
+					for i in table_data:
+						if i != None:
+							try:
+								file_name = table_data[0].text
+								file_link = homepage + table_data[2].find('a')['href']
+								monthlyreport.append({file_name: file_link})
+
+								# rename the file, save it's extension and download
+								excel_file_name = file_name.replace('/', '_')
+								excel_file_type = file_link.split('.')[-1]
+								excel_file = excel_file_name + '.' + excel_file_type
+
+								# print("Downloading...")
+								with open('static/budget/2020/{}'.format(excel_file), 'wb+') as file:
+									response = requests.get(file_link, verify=False)
+									myfile = File(file)
+									myfile.write(response.content)
+									myfile.closed
+									file.closed
+							except:
+								monthlyreport.append({table_data[0].text: ""})
+						
+		return JsonResponse([monthlyreport], safe =False)
+
 
 @api_view(['GET'])
 def year_2018(request):
