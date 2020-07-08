@@ -72,7 +72,7 @@ def year_download_2018(request):
 							except:
 								result.append({table_data[0].text: ""})
 		print("The end")
-		return JsonResponse([file_name], safe =False)
+		return JsonResponse([excel_file], safe =False)
 
 @api_view(['GET'])
 def year_download_2019(request):
@@ -116,7 +116,7 @@ def year_download_2019(request):
 							except:
 								result.append({table_data[0].text: ""})
 		print("The end")
-		return JsonResponse([file_name], safe =False)
+		return JsonResponse([excel_file], safe =False)
 
 
 @api_view(['GET'])
@@ -161,13 +161,13 @@ def year_download_2020(request):
 							except:
 								result.append({table_data[0].text: ""})
 		print("The end")
-		return JsonResponse([file_name], safe =False)
+		return JsonResponse([excel_file], safe =False)
 
 
 
 # DOWNLOAD BUDGET
 
-def year_2018_momthly_download(request):
+def year_2018_monthly_download(request):
 	url = f'{homepage + querystring_2018_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
@@ -202,13 +202,13 @@ def year_2018_momthly_download(request):
 									myfile.closed
 									file.closed
 							except:
-								monthlyreport.append({table_data[0].text: ""})
+								monthlyreport.update({table_data[0].text: ""})
 						
 		return JsonResponse([monthlyreport], safe =False)
 
 
 
-def year_2019_momthly_download(request):
+def year_2019_monthly_download(request):
 	url = f'{homepage + querystring_2019_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
@@ -227,7 +227,7 @@ def year_2019_momthly_download(request):
 							try:
 								file_name = table_data[0].text
 								file_link = homepage + table_data[2].find('a')['href']
-								monthlyreport.append({file_name: file_link})
+								monthlyreport.update({file_name: file_link})
 
 								# rename the file, save it's extension and download
 								excel_file_name = file_name.replace('/', '_')
@@ -242,12 +242,12 @@ def year_2019_momthly_download(request):
 									myfile.closed
 									file.closed
 							except:
-								monthlyreport.append({table_data[0].text: ""})
+								monthlyreport.update({table_data[0].text: ""})
 						
 		return JsonResponse([monthlyreport], safe =False)
 
 
-def year_2020_momthly_download(request):
+def year_2020_monthly_download(request):
 	url = f'{homepage + querystring_2020_monthly}'
 	if request.method == 'GET':
 		r = requests.get(url, verify=False).text
@@ -266,10 +266,10 @@ def year_2020_momthly_download(request):
 							try:
 								file_name = table_data[0].text
 								file_link = homepage + table_data[2].find('a')['href']
-								monthlyreport.append({file_name: file_link})
+								monthlyreport.update({file_name: file_link})
 
 								# rename the file, save it's extension and download
-								excel_file_name = file_name.replace('/', '_')
+								excel_file_name = file_name.replace(' Monthly Budget Performance', '_2020').lower()
 								excel_file_type = file_link.split('.')[-1]
 								excel_file = excel_file_name + '.' + excel_file_type
 
@@ -281,7 +281,7 @@ def year_2020_momthly_download(request):
 									myfile.closed
 									file.closed
 							except:
-								monthlyreport.append({table_data[0].text: ""})
+								monthlyreport.update({table_data[0].text: ""})
 						
 		return JsonResponse([monthlyreport], safe =False)
 

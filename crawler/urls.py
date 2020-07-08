@@ -22,11 +22,11 @@ urlpatterns = [
 
 	# Downloads 
 	path('2018/download/', year_download_2018),
-	path('2018/download/', year_download_2019),
-	path('2018/download/', year_download_2020),
+	path('2019/download/', year_download_2019),
+	path('2020/download/', year_download_2020),
 
-	path('2018/monthly/download/', year_2018_momthly_download),
-	path('2019/monthly/download/', year_2019_momthly_download),
-	path('2020/monthly/download/', year_2020_momthly_download),
+	path('2018/monthly/download/', year_2018_monthly_download),
+	path('2019/monthly/download/', year_2019_monthly_download),
+	path('2020/monthly/download/', year_2020_monthly_download),
 
 ]
