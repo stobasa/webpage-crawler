@@ -41,8 +41,6 @@ Django==3.0.7
 CacheControl==0.12.6
 Cycler==0.10.0
 et_xmlfile==1.0.1
-Flask==1.1.2
-Scrapy==2.1.0
 whitenoise
 schedule==0.6.0
 celery==4.4.6
