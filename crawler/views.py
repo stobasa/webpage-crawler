@@ -273,24 +273,15 @@ def daily_report_json(request, year, month, date):
 
 
 @api_view(['GET'])
-def monthly_report(year, based, month):
-	"""
-	Monthly report view
-	:param request: Year, Based, Month
-	Year: Search Year in YYYY format
-	Based: Admin for ADMINISTRATIVE SEGMENT, Eco for ECONOMIC CLASSIFICATION and Func for FUNCTIONS OF GOVERNMENT
-	Month: Search Month in Format January...
-	:return: the download link for the particular month based on it ADMINISTRATIVE SEGMENT,  ECONOMIC CLASSIFICATION or FUNCTIONS OF GOVERNMENT	
-	"""
+def get_months(request, year):
 
-	try:
 		if int(year) == 2018:
 			url = f'{homepage + querystring_2018_monthly}'
-		if int(year) == 2019:
+		elif int(year) == 2019:
 			url = f'{homepage + querystring_2019_monthly}'
-		if int(year) == 2020:
+		elif int(year) == 2020:
 			url = f'{homepage + querystring_2020_monthly}'
-		
+
 
 		r = requests.get(url, verify=False).text
 		month_dict = {"Admin":{}, "Eco":{}, "Func":{}}
@@ -308,7 +299,7 @@ def monthly_report(year, based, month):
 								try:
 									month_dict["Admin"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
 								except:
-									result = {table_data[0].text: ""}
+									continue
 
 
 		for section in soup.find('section', attrs={'class': 'sppb-section'}):
@@ -322,7 +313,7 @@ def monthly_report(year, based, month):
 								try:
 									month_dict["Eco"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
 								except:
-									result = {table_data[0].text: ""}
+									continue
 
 
 		for section in soup.find('section', attrs={'class': 'sppb-section'}):
@@ -336,31 +327,6 @@ def monthly_report(year, based, month):
 								try:
 									month_dict["Func"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
 								except:
-									result = {table_data[0].text: ""}
-									
-									
-		if based == "Admin":
-			try:
-				result = (month_dict["Admin"][month])
-				return JsonResponse([result])
-			except:
-				return JsonResponse(["Invalid"])
-				
-		elif based == "Eco":
-			try:
-				result = (month_dict["Eco"][month])
-				return JsonResponse([result])
-			except:
-				return JsonResponse(["Invalid"])
-		elif based == "Func":
-			try:
-				result = (month_dict["Func"][month])
-				return JsonResponse([result])
-			except:
-				return JsonResponse("Invalid date", safe=False)
-				
-		else:
-			return JsonResponse("Invalid date", safe=False)
-
-	except:
-		return JsonResponse("Invalid date", safe=False)
+									continue
+	
+		return JsonResponse(month_dict)
