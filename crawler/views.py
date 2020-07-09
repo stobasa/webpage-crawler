@@ -548,7 +548,13 @@ def daily_report_json(request, year, month, date):
 
 
 @api_view(['GET'])
-def get_months(request, year):
+def get_months(request, year, category):
+
+		"""
+		Monthlyly Report View
+		:param request: Year, Category(1-Administrative, 2-Budget, 3-Function)
+		:return: the download link for the month based on the selected category 
+		"""
 
 		if int(year) == 2018:
 			url = f'{homepage + querystring_2018_monthly}'
@@ -556,7 +562,8 @@ def get_months(request, year):
 			url = f'{homepage + querystring_2019_monthly}'
 		elif int(year) == 2020:
 			url = f'{homepage + querystring_2020_monthly}'
-
+		else:
+			return("Invalid Request")
 
 		r = requests.get(url, verify=False).text
 		month_dict = {"Admin":{}, "Eco":{}, "Func":{}}
@@ -572,7 +579,7 @@ def get_months(request, year):
 			for i in table_data:
 							if i != None:
 								try:
-									month_dict["Admin"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+									month_dict["Admin"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[2].find('a')['href']})
 								except:
 									continue
 
@@ -586,7 +593,7 @@ def get_months(request, year):
 			for i in table_data:
 							if i != None:
 								try:
-									month_dict["Eco"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+									month_dict["Eco"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[2].find('a')['href']})
 								except:
 									continue
 
@@ -600,11 +607,16 @@ def get_months(request, year):
 			for i in table_data:
 							if i != None:
 								try:
-									month_dict["Func"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[1].find('a')['href']})
+									month_dict["Func"].update({(table_data[0].text).split(" ")[0]: homepage + table_data[2].find('a')['href']})
 								except:
 									continue
-	
-		return JsonResponse(month_dict)
+
+		if int(category) == 1:
+			return JsonResponse(month_dict["Admin"])
+		elif int(category) == 2:
+			return JsonResponse(month_dict["Eco"])
+		elif int(category) == 3:
+			return JsonResponse(month_dict["Func"])
 								
 
 @api_view(['GET'])
